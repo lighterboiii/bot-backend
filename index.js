@@ -17,6 +17,23 @@ bot.onText(/\/echo (.+)/, (msg, match) => {
   bot.sendMessage(chatId, resp);
 });
 
+const removeTyPrefix = (inputString) => {
+  if (inputString.toLowerCase().startsWith("ты ")) {
+      return inputString.slice(3).trim();
+  } else {
+      return inputString;
+  }
+};
+
+const returnAnswer = (string) => {
+  if (string.startsWith("ты ")) { 
+    const changedString = removeTyPrefix(string);
+    return 'А может быть ты '+ changedString.toLowerCase() + ' или подумаешь?';
+  } else {
+    return 'А может быть ты '+ string.toLowerCase() + ' или подумаешь хорошенько?';
+  }
+}
+
 bot.on('message', async (msg) => {
   const chatId = msg.chat.id;
   const text = msg.text;
@@ -37,7 +54,7 @@ bot.on('message', async (msg) => {
       }
     });
   } else {
-    bot.sendMessage(chatId, 'А может быть ты '+ text.toLowerCase() + ', ёпта', {
+    bot.sendMessage(chatId, returnAnswer(text), {
       reply_markup: {
         inline_keyboard: [
           [{ text: 'Лучше вот сюда вот нажми', web_app: { url: URL } }]
