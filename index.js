@@ -20,7 +20,7 @@ const removeTyPrefix = (inputString) => {
 };
 
 const returnAnswer = (string) => {
-  if (string.startsWith("ты ")) { 
+  if (string.toLowerCase().startsWith("ты ")) { 
     const changedString = removeTyPrefix(string);
     return 'А может быть ты '+ changedString.toLowerCase() + ' или подумаешь ещё?';
   } else {
@@ -82,13 +82,13 @@ app.post('/web-data', async (req, res) => {
           id: queryId,
           title: 'Успешно',
           input_message_content: {
-              message_text: ` Поздравляем с покупкой ${selectedPlan}}`
+              message_text: ` Поздравляем с покупкой. Ваша подписка - ${selectedPlan.name}}`
           }
       })
       return res.status(200).json({});
   } catch (e) {
       console.log(e);
-      return res.status(200).json({});
+      return res.status(500).json({});
   }
 });
 
