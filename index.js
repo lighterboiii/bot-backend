@@ -49,23 +49,30 @@ bot.on('message', async (msg) => {
       }
     });
   }
+  // await bot.sendMessage(chatId, {
+  //   reply_markup: {
+  //     keyboard: [
+  //       [{ text: 'Запустить приложение', web_app: { url: URL } }]
+  //     ]
+  //   }
+  // });
 });
 
-app.post('/vpn-bot', async (req, res) => {
-  const { selectedPlan, queryId } = req.body;
+app.post('/web-data', async (req, res) => {
+  const {queryId, selectedPlan } = req.body;
   try {
       await bot.answerWebAppQuery(queryId, {
           type: 'article',
           id: queryId,
-          title: 'Заказ оформлен',
+          title: 'Успешно',
           input_message_content: {
-              message_text: `здесь будет текст ответа ${selectedPlan}`
+              message_text: ` Поздравляем с покупкой ${selectedPlan}}`
           }
       })
       return res.status(200).json({});
   } catch (e) {
       return res.status(500).json({})
   }
-});
+})
 
 app.listen(PORT, () => console.log('Работаю на порту ' + PORT))
