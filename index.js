@@ -11,11 +11,11 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-bot.onText(/\/echo (.+)/, (msg, match) => {
-  const chatId = msg.chat.id;
-  const resp = match[1];
-  bot.sendMessage(chatId, resp);
-});
+// bot.onText(/\/echo (.+)/, (msg, match) => {
+//   const chatId = msg.chat.id;
+//   const resp = match[1];
+//   bot.sendMessage(chatId, resp);
+// });
 
 const removeTyPrefix = (inputString) => {
   if (inputString.toLowerCase().startsWith("ты ")) {
@@ -28,9 +28,9 @@ const removeTyPrefix = (inputString) => {
 const returnAnswer = (string) => {
   if (string.startsWith("ты ")) { 
     const changedString = removeTyPrefix(string);
-    return 'А может быть ты '+ changedString.toLowerCase() + ' или подумаешь?';
+    return 'А может быть ты '+ changedString.toLowerCase() + ' или подумаешь ещё?';
   } else {
-    return 'А может быть ты '+ string.toLowerCase() + ' или подумаешь хорошенько?';
+    return 'А может быть ты '+ string.toLowerCase() + ' ёпта?';
   }
 }
 
@@ -66,12 +66,11 @@ bot.on('message', async (msg) => {
   if(msg?.web_app_data?.data) {
     try {
         const data = JSON.parse(msg?.web_app_data?.data)
-        console.log(data)
-        await bot.sendMessage(chatId, 'Спасибо за обратную связь!')
-
+        console.log(data);
+        await bot.sendMessage(chatId, 'Выбран план ' + data?.selectedPlan);
         setTimeout(async () => {
-            await bot.sendMessage(chatId, 'тут что то напишем в ответе');
-        }, 3000)
+            await bot.sendMessage(chatId, 'Перейти к оплате?');
+        }, 2000)
     } catch (e) {
         console.log(e);
     }
@@ -85,7 +84,7 @@ app.post('тут путь сделать', async (req, res) => {
       await bot.answerWebAppQuery(queryId, {
           type: 'article',
           id: queryId,
-          title: 'тут сделать титлу',
+          title: 'Заказ оформлен',
           input_message_content: {
               message_text: 'здесь будет текст ответа'
           }
@@ -96,4 +95,4 @@ app.post('тут путь сделать', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => console.log('server started on PORT ' + PORT))
+app.listen(PORT, () => console.log('Работаю на порту ' + PORT))
