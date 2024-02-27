@@ -11,12 +11,6 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// bot.onText(/\/echo (.+)/, (msg, match) => {
-//   const chatId = msg.chat.id;
-//   const resp = match[1];
-//   bot.sendMessage(chatId, resp);
-// });
-
 const removeTyPrefix = (inputString) => {
   if (inputString.toLowerCase().startsWith("ты ")) {
       return inputString.slice(3).trim();
@@ -39,13 +33,6 @@ bot.on('message', async (msg) => {
   const text = msg.text;
 
   if (text === '/start') {
-      // await bot.sendMessage(chatId, 'Оформить подписку на наш VPN-сервис или попробовать его бесплатно можно по кнопке ниже', {
-      //   reply_markup: {
-      //     keyboard: [
-      //       [{ text: 'Кнопка ниже', web_app: {url: URL}}]
-      //     ],
-      //   }
-      // });
     await bot.sendMessage(chatId, 'Оформить подписку на наш VPN-сервис или попробовать его бесплатно можно по кнопке ниже', {
       reply_markup: {
         inline_keyboard: [
@@ -62,21 +49,9 @@ bot.on('message', async (msg) => {
       }
     });
   }
-// это тоже движуха на потом вся
-  if(msg?.web_app_data?.data) {
-    try {
-        const data = msg?.web_app_data?.data.data;
-        await bot.sendMessage(chatId, 'Выбран план');
-        // setTimeout(async () => {
-        //     await bot.sendMessage(chatId, 'Перейти к оплате?');
-        // }, 2000)
-    } catch (e) {
-        console.log(e);
-    }
-}
 });
 
-app.post('/web-data', async (req, res) => {
+app.post('/vpn-bot', async (req, res) => {
   const { selectedPlan, queryId } = req.body;
   try {
       await bot.answerWebAppQuery(queryId, {
