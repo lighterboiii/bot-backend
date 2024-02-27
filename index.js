@@ -39,13 +39,13 @@ bot.on('message', async (msg) => {
   const text = msg.text;
 
   if (text === '/start') {
-    //   await bot.sendMessage(chatId, 'Оформить подписку на наш VPN-сервис или попробовать его бесплатно можно по кнопке ниже', {
-    //     reply_markup: {
-    //       keyboard: [
-    //         [{ text: 'Кнопка ниже', web_app: {url: `${URL}/signin`}}]
-    //       ],
-    //     }
-    //   });
+      // await bot.sendMessage(chatId, 'Оформить подписку на наш VPN-сервис или попробовать его бесплатно можно по кнопке ниже', {
+      //   reply_markup: {
+      //     keyboard: [
+      //       [{ text: 'Кнопка ниже', web_app: {url: URL}}]
+      //     ],
+      //   }
+      // });
     await bot.sendMessage(chatId, 'Оформить подписку на наш VPN-сервис или попробовать его бесплатно можно по кнопке ниже', {
       reply_markup: {
         inline_keyboard: [
@@ -65,28 +65,26 @@ bot.on('message', async (msg) => {
 // это тоже движуха на потом вся
   if(msg?.web_app_data?.data) {
     try {
-        const data = JSON.parse(msg?.web_app_data?.data)
-        console.log(data);
-        await bot.sendMessage(chatId, 'Выбран план ' + data?.selectedPlan);
-        setTimeout(async () => {
-            await bot.sendMessage(chatId, 'Перейти к оплате?');
-        }, 2000)
+        const data = msg?.web_app_data?.data.data;
+        await bot.sendMessage(chatId, 'Выбран план');
+        // setTimeout(async () => {
+        //     await bot.sendMessage(chatId, 'Перейти к оплате?');
+        // }, 2000)
     } catch (e) {
         console.log(e);
     }
 }
 });
 
-// дальше методы-заглушки, потом их сделать ЖЕСТКО!
-app.post('тут путь сделать', async (req, res) => {
-  const {} = req.body; // вытащить поля
+app.post('/web-data', async (req, res) => {
+  const { selectedPlan, queryId } = req.body;
   try {
       await bot.answerWebAppQuery(queryId, {
           type: 'article',
           id: queryId,
           title: 'Заказ оформлен',
           input_message_content: {
-              message_text: 'здесь будет текст ответа'
+              message_text: `здесь будет текст ответа ${selectedPlan}`
           }
       })
       return res.status(200).json({});
