@@ -5,8 +5,8 @@ const cors = require('cors');
 const PORT = 8000;
 const token = '6861958515:AAFtLJnKgI0qXOoyc2UdlQKbuWxp--kHCFA';
 const bot = new TelegramBot(token, { polling: true });
-// const URL = 'https://lighterboiii.github.io/vpn-bot/';
 const URL = 'https://main--vpnstool.netlify.app';
+
 const app = express();
 
 app.use(express.json());
@@ -46,7 +46,7 @@ bot.on('message', async (msg) => {
       bot.sendMessage(chatId, returnAnswer(text), {
         reply_markup: {
           keyboard: [
-            [{ text: 'Нажми на кнопочку', web_app: { url: URL } }]
+            [{ text: 'Нажми на кнопочку', web_app: { url: `${URL}/signup` }}]
           ]
         }
       });
@@ -70,22 +70,22 @@ bot.on('message', async (msg) => {
   }
 });
 
-app.post('/web-data', async (req, res) => {
-  const { queryId, selectedPlan } = req.body;
-  try {
-    await bot.answerWebAppQuery(queryId, {
-      type: 'article',
-      id: queryId,
-      title: 'Успешно',
-      input_message_content: {
-        message_text: `Поздравляем с покупкой. Ваша подписка ${selectedPlan.name}`
-      }
-    })
-    return res.status(200).json({});
-  } catch (e) {
-    console.log(e);
-    return res.status(500).json({});
-  }
-});
+// app.post('/web-data', async (req, res) => {
+//   const { queryId, selectedPlan } = req.body;
+//   try {
+//     await bot.answerWebAppQuery(queryId, {
+//       type: 'article',
+//       id: queryId,
+//       title: 'Успешно',
+//       input_message_content: {
+//         message_text: `Поздравляем с покупкой. Ваша подписка ${selectedPlan.name}`
+//       }
+//     })
+//     return res.status(200).json({});
+//   } catch (e) {
+//     console.log(e);
+//     return res.status(500).json({});
+//   }
+// });
 
 app.listen(PORT, () => console.log('Работаю на порту ' + PORT))
