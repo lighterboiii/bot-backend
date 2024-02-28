@@ -61,8 +61,9 @@ bot.on('message', async (msg) => {
       await bot.sendMessage(chatId, `Привет`)
 
       setTimeout(async () => {
-        await bot.sendMessage(chatId, `Твоя почта: ${data?.email}`);
-        await bot.sendMessage(chatId, `Твой номер: ${data?.phone}`);
+        await bot.sendMessage(chatId, `Твой логин: ${data?.email}`);
+        await bot.sendMessage(chatId, `Пароль для входа в аккаунт: ${data?.password}`);
+        await bot.sendMessage(chatId, `👇 жми сюда для продолжения`)
       }, 300)
     } catch (e) {
       console.log(e);
