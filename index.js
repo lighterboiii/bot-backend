@@ -21,12 +21,12 @@ const removeTyPrefix = (inputString) => {
 };
 
 const returnAnswer = (string) => {
-  if (string && string.toLowerCase().startsWith("ты ")) {
+  // if (string && string.toLowerCase().startsWith("ты ")) {
     const changedString = removeTyPrefix(string);
     return 'А может быть ты ' + changedString.toLowerCase() + ' или подумаешь ещё?';
-  } else {
-    return 'А может быть ты ' + string?.toLowerCase() + ' ёпта?';
-  }
+  // } else {
+  //   return 'А может быть ты ' + string?.toLowerCase() + '?';
+  // }
 }
 
 bot.on('message', async (msg) => {
@@ -71,22 +71,22 @@ bot.on('message', async (msg) => {
   }
 });
 
-// app.post('/web-data', async (req, res) => {
-//   const { queryId, selectedPlan } = req.body;
-//   try {
-//     await bot.answerWebAppQuery(queryId, {
-//       type: 'article',
-//       id: queryId,
-//       title: 'Успешно',
-//       input_message_content: {
-//         message_text: `Поздравляем с покупкой. Ваша подписка ${selectedPlan.name}`
-//       }
-//     })
-//     return res.status(200).json({});
-//   } catch (e) {
-//     console.log(e);
-//     return res.status(500).json({});
-//   }
-// });
+app.post('/user-data', async (req, res) => {
+  const { queryId, selectedPlan } = req.body;
+  try {
+    await bot.answerWebAppQuery(queryId, {
+      type: 'article',
+      id: queryId,
+      title: 'Успешно',
+      input_message_content: {
+        message_text: `Поздравляем с покупкой. Ваша план - ${selectedPlan.name}`
+      }
+    })
+    return res.status(200).json({});
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({});
+  }
+});
 
-app.listen(PORT, () => console.log('Работаю на порту ' + PORT))
+app.listen(PORT, () => console.log('Работаю на порту ' + PORT));
