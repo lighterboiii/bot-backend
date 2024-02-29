@@ -71,8 +71,8 @@ bot.on('message', async (msg) => {
   }
 });
 
-app.post('/user-data', async (req, res) => {
-  const { queryId, selectedPlan } = req.body;
+app.post('/', async (req, res) => {
+  const { selectedPlan, queryId } = req.body;
   try {
     await bot.answerWebAppQuery(queryId, {
       type: 'article',
